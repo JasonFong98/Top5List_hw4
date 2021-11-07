@@ -37,8 +37,6 @@ const { store } = useContext(GlobalStoreContext);
         email: data.get('email'),
         password: data.get('password')
     }, store);
-
-    console.log(auth);
     
   };
 
@@ -52,7 +50,7 @@ const { store } = useContext(GlobalStoreContext);
           sm={4}
           md={7}
           sx={{
-            backgroundImage: 'url(https://source.unsplash.com/random)',
+            backgroundImage: 'url(https://i.stack.imgur.com/QmdEz.gif)',
             backgroundRepeat: 'no-repeat',
             backgroundColor: (t) =>
               t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
