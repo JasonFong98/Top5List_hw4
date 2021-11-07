@@ -11,7 +11,9 @@ export const AuthActionType = {
     GET_LOGGED_IN: "GET_LOGGED_IN",
     REGISTER_USER: "REGISTER_USER",
     LOGIN_USER: "LOGIN_USER",
-    MODAL: "MODAL"
+    MODAL: "MODAL",
+    LOGOUT: "LOGOUT"
+
 }
 
 function AuthContextProvider(props) {
@@ -61,6 +63,15 @@ function AuthContextProvider(props) {
                     errMessage: payload.errMessage
                 })
             }
+
+            case AuthActionType.LOGOUT: {
+                return setAuth({
+                    user: null,
+                    loggedIn: false,
+                    modal: false
+                })
+            }
+
             default:
                 return auth;
         }
@@ -142,6 +153,15 @@ function AuthContextProvider(props) {
         });
     }
 
+    auth.logoutUser = async function(){
+        authReducer({
+            type: AuthActionType.LOGOUT,
+            payload: {
+            }
+        });
+        history.push("/");
+    }
+
     return (
         <AuthContext.Provider value={{
             auth
@@ -149,6 +169,8 @@ function AuthContextProvider(props) {
             {props.children}
         </AuthContext.Provider>
     );
+
+    
 }
 
 export default AuthContext;
