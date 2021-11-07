@@ -153,6 +153,7 @@ function GlobalStoreContextProvider(props) {
                     listMarkedForDeletion: null
                 });
             }
+
             default:
                 return store;
         }
@@ -259,6 +260,9 @@ function GlobalStoreContextProvider(props) {
                 payload: top5List
             });
         }
+
+    
+
     }
 
     store.deleteList = async function (listToDelete) {

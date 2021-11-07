@@ -6,6 +6,7 @@ import ListItem from '@mui/material/ListItem';
 import IconButton from '@mui/material/IconButton';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
+import DeleteModal from './DeleteModal';
 
 /*
     This is a card in our list of top 5 lists. It lets select
@@ -84,6 +85,7 @@ function ListCard(props) {
                         <DeleteIcon style={{fontSize:'48pt'}} />
                     </IconButton>
                 </Box>
+                
         </ListItem>
 
     if (editActive) {
