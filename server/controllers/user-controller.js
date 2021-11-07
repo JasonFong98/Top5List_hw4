@@ -122,8 +122,20 @@ loginUser = async (req, res) => {
     }
 }
 
+logoutUser = async (req, res) => {
+    await res.clearCookie("token").status(200).json({
+        success: true,
+        user: {
+            firstName: null,
+            lastName: null,
+            email: null
+        }
+    }).send();
+}
+
 module.exports = {
     getLoggedIn,
     registerUser,
-    loginUser
+    loginUser,
+    logoutUser
 }

@@ -81,7 +81,7 @@ function AuthContextProvider(props) {
         const response = await api.getLoggedIn();
         if (response.status === 200) {
             authReducer({
-                type: AuthActionType.SET_LOGGED_IN,
+                type: AuthActionType.GET_LOGGED_IN,
                 payload: {
                     loggedIn: response.data.loggedIn,
                     user: response.data.user
@@ -154,6 +154,8 @@ function AuthContextProvider(props) {
     }
 
     auth.logoutUser = async function(){
+        let response = await api.logoutUser();
+        console.log(response);
         authReducer({
             type: AuthActionType.LOGOUT,
             payload: {
