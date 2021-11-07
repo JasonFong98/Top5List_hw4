@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useContext } from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -13,18 +14,32 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Copyright from './Copyright';
+import AuthContext from '../auth';
+import { GlobalStoreContext } from '../store';
+import Modal from './ErrorModal';
 
 const theme = createTheme();
 
+
+
 export default function LoginScreen() {
+
+const { auth } = useContext(AuthContext);
+const { store } = useContext(GlobalStoreContext);
+
   const handleSubmit = (event) => {
     event.preventDefault();
+    
     const data = new FormData(event.currentTarget);
+
     // eslint-disable-next-line no-console
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+    auth.loginUser({
+        email: data.get('email'),
+        password: data.get('password')
+    }, store);
+
+    console.log(auth);
+    
   };
 
   return (
@@ -101,12 +116,13 @@ export default function LoginScreen() {
                   </Link>
                 </Grid>
                 <Grid item>
-                  <Link href="#" variant="body2">
+                  <Link href="/register/" variant="body2">
                     {"Don't have an account? Sign Up"}
                   </Link>
                 </Grid>
               </Grid>
               <Copyright sx={{ mt: 5 }} />
+              <Modal/>
             </Box>
           </Box>
         </Grid>

@@ -78,7 +78,52 @@ registerUser = async (req, res) => {
     }
 }
 
+loginUser = async (req, res) => {
+    const {email, password} = req.body;
+    
+    if(!email || !password){
+        return res.status(400)
+        .json({ errorMessage: "Please enter all required fields." });
+    }
+
+    const existingUser = await User.findOne({ email: email });
+
+    if(!existingUser){
+        return res.status(400).json({
+            success: false,
+            errorMessage: "Incorrect Email"
+        })
+    }
+    
+    
+    const match = await bcrypt.compare(password, existingUser.passwordHash)
+    if(match){
+        const savedUser = await existingUser.save();
+
+        const token = auth.signToken(savedUser);
+
+        await res.cookie("token", token, {
+            httpOnly: true,
+            secure: true,
+            sameSite: "none"
+        }).status(200).json({
+            success: true,
+            user: {
+                firstName: savedUser.firstName,
+                lastName: savedUser.lastName,
+                email: savedUser.email
+            }
+        }).send();
+    }else{
+        return res.status(400).json({
+            success: false,
+            errorMessage: "Incorrect Password"
+        })
+    }
+}
+
 module.exports = {
     getLoggedIn,
-    registerUser
+    registerUser,
+    loginUser
 }

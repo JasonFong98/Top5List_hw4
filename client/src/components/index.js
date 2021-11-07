@@ -8,6 +8,8 @@ import SplashScreen from './SplashScreen'
 import Statusbar from './Statusbar'
 import Top5Item from './Top5Item'
 import WorkspaceScreen from './WorkspaceScreen'
+import LoginScreen from './LoginScreen'
+import ErrorModal from './ErrorModal'
 /*
     This serves as a module so that we can import
     all the other components as we wish.
@@ -16,11 +18,13 @@ import WorkspaceScreen from './WorkspaceScreen'
 */
 export { 
     AppBanner, 
+    ErrorModal,
     EditToolbar, 
     HomeScreen,
     HomeWrapper,
     ListCard, 
     RegisterScreen,
+    LoginScreen,
     SplashScreen,
     Statusbar, 
     Top5Item, 
