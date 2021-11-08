@@ -302,17 +302,26 @@ function GlobalStoreContextProvider(props) {
                 history.push("/top5list/" + top5List._id);
             }
         }
+
+        store.changeRedoButton();
+        store.changeUndoButton();
     }
 
     store.addMoveItemTransaction = function (start, end) {
         let transaction = new MoveItem_Transaction(store, start, end);
         tps.addTransaction(transaction);
+
+        store.changeRedoButton();
+        store.changeUndoButton();
     }
 
     store.addUpdateItemTransaction = function (index, newText) {
         let oldText = store.currentList.items[index];
         let transaction = new UpdateItem_Transaction(store, index, oldText, newText);
         tps.addTransaction(transaction);
+
+        store.changeRedoButton();
+        store.changeUndoButton();
     }
 
     store.moveItem = function (start, end) {
@@ -335,11 +344,15 @@ function GlobalStoreContextProvider(props) {
 
         // NOW MAKE IT OFFICIAL
         store.updateCurrentList();
+        store.changeRedoButton();
+        store.changeUndoButton();
     }
 
     store.updateItem = function (index, newItem) {
         store.currentList.items[index] = newItem;
         store.updateCurrentList();
+        store.changeRedoButton();
+        store.changeUndoButton();
     }
 
     store.updateCurrentList = async function () {
@@ -355,10 +368,14 @@ function GlobalStoreContextProvider(props) {
 
     store.undo = function () {
         tps.undoTransaction();
+        store.changeRedoButton();
+        store.changeUndoButton();
     }
 
     store.redo = function () {
         tps.doTransaction();
+        store.changeRedoButton();
+        store.changeUndoButton();
     }
 
     store.canUndo = function() {
@@ -384,6 +401,36 @@ function GlobalStoreContextProvider(props) {
             payload: null
         });
     }
+
+    store.disableCloseButton = function (){
+        let button = document.getElementById("close-button");
+        button.classList.add("top5-button-disabled");
+      }
+    
+      store.enableCloseButton = function(){
+        let button = document.getElementById("close-button");
+        button.classList.remove("top5-button-disabled");
+      }
+    
+      store.changeRedoButton = function(){
+        if(!tps.hasTransactionToRedo()){
+            let button = document.getElementById("redo-button");
+            button.classList.add("top5-button-disabled");
+        }else{
+            let button = document.getElementById("redo-button");
+            button.classList.remove("top5-button-disabled");
+        }
+      }
+    
+      store.changeUndoButton = function(){
+          if(!tps.hasTransactionToUndo()){
+              let button = document.getElementById("undo-button");
+              button.classList.add("top5-button-disabled");
+          }else{
+              let button = document.getElementById("undo-button");
+              button.classList.remove("top5-button-disabled");
+          }
+      }
 
     return (
         <GlobalStoreContext.Provider value={{

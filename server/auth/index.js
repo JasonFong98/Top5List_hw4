@@ -4,13 +4,14 @@ function authManager() {
     verify = function (req, res, next) {
         try {
             const token = req.cookies.token;
-            console.log("---------------" + token);
+
 
             if (!token) {
                 return res.status(401).json({
                     loggedIn: false,
                     user: null,
-                    errorMessage: "Unauthorized"
+                    errorMessage: "Unauthorized",
+                    token: req.cookies.token
                 })
             }
 
