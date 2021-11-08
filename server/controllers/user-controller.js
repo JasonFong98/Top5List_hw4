@@ -14,6 +14,7 @@ getLoggedIn = async (req, res) => {
             }
         }).send();
     })
+
 }
 
 registerUser = async (req, res) => {
@@ -123,8 +124,12 @@ loginUser = async (req, res) => {
 }
 
 logoutUser = async (req, res) => {
-    await res.clearCookie("token").status(200).json({
-        success: true,
+    await res.cookie("token", null, {
+        httpOnly: true,
+        secure: true,
+        sameSite: "none"
+    }).status(200).json({
+        loggedIn: false,
         user: {
             firstName: null,
             lastName: null,
